@@ -4,31 +4,62 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Application.Models;
+using Repository.Interfaces;
+using Entities;
 
 namespace Application.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly ITodoRepository _todoRepository;
+
+        public HomeController(ITodoRepository todoRepository)
+        {
+            _todoRepository = todoRepository;
+        }
+
         public IActionResult Index()
         {
-            return View();
+            return View(_todoRepository.GetAll());
         }
 
-        public IActionResult About()
+        public IActionResult Add()
         {
-            ViewData["Message"] = "Your application description page.";
-
             return View();
         }
 
-        public IActionResult Contact()
+        [HttpPost]
+        public IActionResult Add(Todo todo)
         {
-            ViewData["Message"] = "Your contact page.";
-
-            return View();
+            _todoRepository.Add(todo);
+            return View("Index", _todoRepository.GetAll());
         }
 
+        public IActionResult Edit(int id)
+        {            
+            return View(_todoRepository.Get(id));
+        }
+
+        [HttpPost]
+        public IActionResult Edit(Todo todo)
+        {
+            _todoRepository.Edit(todo);
+            return View("Index", _todoRepository.GetAll());
+        }
+
+        public IActionResult Remove(int id)
+        {
+            return View(_todoRepository.Get(id));
+        }
+
+        public IActionResult RemoveConfirm(int id)
+        {
+            _todoRepository.Remove(id);
+            return RedirectToAction("Index");
+        }
+        
         public IActionResult Privacy()
         {
             return View();

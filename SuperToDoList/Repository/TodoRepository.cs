@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using Dapper;
+using System.Linq;
+using System.Data;
 
 namespace Repository
 {
@@ -11,14 +13,31 @@ namespace Repository
     {
         public TodoRepository(IConfiguration config) : base(config) { }
 
-        public void Add()
+        public void Add(Todo todo)
         {
-            throw new NotImplementedException();
+            DynamicParameters p = new DynamicParameters();
+            p.Add("@Task", todo.Task);
+
+            string sql = "INSERT INTO Todo (Task) VALUES(@Task)";
+
+            using (var con = new SqlConnection(base.GetConnection()))
+            {
+                con.Execute(sql, p);
+            }
         }
 
         public Todo Get(int id)
         {
-            throw new NotImplementedException();
+            DynamicParameters p = new DynamicParameters();
+            p.Add("@Id", id, DbType.Int32);
+
+            string sql = "SELECT * FROM Todo WHERE Id = @Id";
+
+            using (var con = new SqlConnection(base.GetConnection()))
+            {
+                var r = con.Query<Todo>(sql, p);
+                return r.FirstOrDefault();
+            }
         }
 
         public IEnumerable<Todo> GetAll()
@@ -34,14 +53,31 @@ namespace Repository
             return todolist;
         }
 
-        public void Remove(Todo entity)
+        public void Remove(int id)
         {
-            throw new NotImplementedException();
+            DynamicParameters p = new DynamicParameters();
+            p.Add("@Id", id, DbType.Int32);
+
+            string sql = "DELETE FROM Todo WHERE Id = @Id";
+
+            using (var con = new SqlConnection(base.GetConnection()))
+            {
+                con.Execute(sql, p);
+            }
         }
 
-        public void Update(Todo entity)
+        public void Edit(Todo todo)
         {
-            throw new NotImplementedException();
+            DynamicParameters p = new DynamicParameters();
+            p.Add("@Id", todo.Id);
+            p.Add("@Task", todo.Task);
+
+            string sql = @"UPDATE Todo SET Task = @Task WHERE Id = @Id";
+
+            using (var con = new SqlConnection(base.GetConnection()))
+            {
+                con.Execute(sql, p);
+            }
         }
     }
 }

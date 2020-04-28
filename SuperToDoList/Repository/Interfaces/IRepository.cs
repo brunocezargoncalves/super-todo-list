@@ -6,8 +6,8 @@ namespace Repository.Interfaces
     {
         IEnumerable<T> GetAll();
         T Get(int id);
-        void Add();
-        void Remove(T entity);
-        void Update(T entity);
+        void Add(T entity);
+        void Remove(int id);
+        void Edit(T entity);
     }
 }
