@@ -2,7 +2,7 @@
 
 namespace Repository.Interfaces
 {
-    public interface ITodoRepository : IRepository<Todo>
+    public interface IToDoRepository : IRepository<ToDo>
     {
     }
 }

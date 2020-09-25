@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.ViewFeatures;
+﻿using Microsoft.AspNetCore.Html;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,14 +11,31 @@ namespace Application.Models
     {
         danger, info, light, success, warning
     }
-    public class Notification
+    public class Message
     {
-        public string Message { get; set; }
+        public string Text { get; set; }
         public NotificationType Type { get; set; }
     }
 
-    //public static class Notification
-    //{
-    //    public void Set(ITempDataDictionary temp, )
-    //}
+    public static class Notification
+    {
+       public static void Set(ITempDataDictionary temp, Message message)
+       {
+           temp["notify"] = Newtonsoft.Json.JsonConvert.SerializeObject(message);
+       }
+
+       public static IHtmlContent Get(ITempDataDictionary temp)
+       {           
+           if(temp["notify"] != null)
+           {
+               var obj = Newtonsoft.Json.JsonConvert.DeserializeObject<Message>((string)temp["notify"]);
+               string html = $"<div class=\"alert alert-{obj.Type}\">{obj.Text}</div>";
+               return new HtmlContentBuilder().AppendHtml(html);
+           }
+           else
+           {
+               return new HtmlContentBuilder().AppendHtml("");
+           }
+       }
+    }
 }
