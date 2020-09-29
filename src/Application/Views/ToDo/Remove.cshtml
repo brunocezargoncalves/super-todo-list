@@ -7,7 +7,7 @@
     <div class="card-header">Tarefas a fazer</div>
     <div class="card-body">
         <p>Você realmente deseja remover a tarefa <strong> @Model.Task</strong>?</p>
-        @Html.ActionLink("Sim", "RemoveConfirm", "Task", new { id = Model.Id }, new { @class = "btn btn-danger" })
-        @Html.ActionLink("Não", "Index", "Task", null, new { @class = "btn btn-light" })
+        @Html.ActionLink("Sim", "RemoveConfirm", "ToDo", new { id = Model.Id }, new { @class = "btn btn-danger" })
+        @Html.ActionLink("Não", "Index", "ToDo", null, new { @class = "btn btn-light" })
     </div>
 </div>

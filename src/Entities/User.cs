@@ -24,9 +24,16 @@ namespace Entities
 
         [Required]
         [Column("Password")]
-        public string Password { get; set; }
+        public string Password { get; set; }        
 
         [Column("ChangePassword")]
         public bool ChangePassword { get; set; }
+
+        [Required]
+        [Column("Role")]
+        public string Role { get; set; }
+
+        // [NotMapped]
+        // public string Token {get; set; }
     }
 }

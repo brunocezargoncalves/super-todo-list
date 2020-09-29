@@ -50,9 +50,9 @@ namespace Repository
             parameters.Add("@Task", ToDo.Task);
             parameters.Add("@Description", ToDo.Description);
             parameters.Add("@Forecast", ToDo.Forecast);
-            parameters.Add("@End", ToDo.End);
+            parameters.Add("@Finish", ToDo.Finish);
 
-            string sql = "INSERT INTO ToDos (Id, Start, UserId, Task, Description, Forecast, \"End\") VALUES(@Id, @Start, @UserId, @Task, @Description, @Forecast, @End)";
+            string sql = "INSERT INTO ToDos (Id, Start, UserId, Task, Description, Forecast, Finish) VALUES(@Id, @Start, @UserId, @Task, @Description, @Forecast, @Finish)";
 
             using (var con = new SqlConnection(base.GetConnection()))
             {
@@ -68,9 +68,9 @@ namespace Repository
             parameters.Add("@Task", ToDo.Task);
             parameters.Add("@Description", ToDo.Description);
             parameters.Add("@Forecast", ToDo.Forecast);
-            parameters.Add("@End", ToDo.End);
+            parameters.Add("@Finish", ToDo.Finish);
 
-            string sql = @"UPDATE ToDos SET UserId = @UserId, Task = @Task, Description = @Description, Forecast = @Forecast, End = @End WHERE Id = @Id";
+            string sql = @"UPDATE ToDos SET UserId = @UserId, Task = @Task, Description = @Description, Forecast = @Forecast, Finish = @Finish WHERE Id = @Id";
 
             using (var con = new SqlConnection(base.GetConnection()))
             {

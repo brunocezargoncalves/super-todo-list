@@ -90,5 +90,20 @@ namespace Repository
                 con.Execute(sql, parameters);
             }
         }
+
+        public User Login(string email, string password)
+        {
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@Email", email, DbType.String);
+            parameters.Add("@Password", password, DbType.String);
+
+            string sql = "SELECT * FROM Users WHERE Email = @Email AND Password = @Password";
+
+            using (var con = new SqlConnection(base.GetConnection()))
+            {
+                var r = con.Query<User>(sql, parameters);
+                return r.FirstOrDefault();
+            }
+        }
     }
 }

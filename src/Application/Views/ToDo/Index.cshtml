@@ -4,6 +4,7 @@
 }
 
 <div class="card bg-light text-dark">
+    @Html.ActionLink("Logout", "Logout", "Login", null, new { @class = "btn btn-light"})
     <div class="card-header">Tarefas a fazer</div>
     <div class="card-body">
         <table class="table table-striped">
@@ -20,14 +21,14 @@
                         <td>@item.Task</td>
                         <td>
                             <div class="float-right">
-                                @Html.ActionLink("Editar", "Edit", "Task", new { id = item.Id }, new { @class = "btn btn-warning btn-sm" })
-                                @Html.ActionLink("Remover", "Remove", "Task", new { id = item.Id }, new { @class = "btn btn-danger btn-sm" })
+                                @Html.ActionLink("Editar", "Edit", "ToDo", new { id = item.Id }, new { @class = "btn btn-warning btn-sm" })
+                                @Html.ActionLink("Remover", "Remove", "ToDo", new { id = item.Id }, new { @class = "btn btn-danger btn-sm" })
                             </div>
                         </td>
                     </tr>
                 }
             </tbody>
         </table>
-        @Html.ActionLink("Adicionar", "Add", "Task", null, new { @class = "btn btn-success" })
+        @Html.ActionLink("Adicionar", "Add", "ToDo", null, new { @class = "btn btn-success" })
     </div>
 </div>

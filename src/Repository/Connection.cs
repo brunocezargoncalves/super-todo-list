@@ -12,7 +12,7 @@ namespace Repository
 
         public string GetConnection()
         {
-            return _configuration.GetSection("Connections").GetSection("ConnectionStringSuperToDoList").Value;
+            return _configuration.GetSection("Connections").GetSection("ConnectionString").Value;
         }
     }
 }

@@ -7,7 +7,6 @@ namespace Entities
     [Table("ToDos")]
     public class ToDo : EntityBase<Guid>
     {
-
         [ForeignKey("UserId")]
         [Required]
         [Column("UserId")]
@@ -27,7 +26,7 @@ namespace Entities
         [Column("Forecast")]
         public DateTime? Forecast { get; set; }
 
-        [Column("End")]
-        public DateTime? End { get; set; }
+        [Column("Finish")]
+        public DateTime? Finish { get; set; }
     }
 }

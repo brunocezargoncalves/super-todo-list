@@ -6,8 +6,8 @@
 <div class="card">
     <div class="card-header">Tarefas a fazer</div>
     <div class="card-body">
-        @using (Html.BeginForm("Edit", "Task", FormMethod.Post))
-        {        
+        @using (Html.BeginForm("Add", "ToDo", FormMethod.Post))
+        {
             <div class="form-group">
                 <label>Tarefa</label>
                 @Html.TextBoxFor(d => d.Task, new { @class = "form-control" })
@@ -20,13 +20,14 @@
                 <label>Previsão</label>
                 @Html.TextBoxFor(d => d.Forecast, new { @class = "form-control" })
             </div>
-
+            
+            @Html.HiddenFor(d => d.Id);
             @Html.HiddenFor(d => d.UserId);
             @Html.HiddenFor(d => d.Start);
-            @Html.HiddenFor(d => d.End);
+            @Html.HiddenFor(d => d.Finish);
 
             <button type="submit" class="btn btn-primary">Salvar</button>
-            <a href="@Url.Action("Index", "Task")" class="btn btn-light">Cancelar</a>
+            <a href="@Url.Action("Index", "ToDo")" class="btn btn-default">Cancelar</a>
         }
     </div>
 </div>
