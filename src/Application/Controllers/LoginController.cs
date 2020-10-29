@@ -59,41 +59,48 @@ namespace Application.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public IActionResult Login(User user)
+        public IActionResult Login(LoginViewModel loginViewModel)
         {            
             try
             {
-                var authenticatedUser = _userRepository.Login(user.Email, Common.ComputeSha256Hash(user.Password));
-
-                if(authenticatedUser != null)
+                if(ModelState.IsValid)
                 {
-                    authenticatedUser.Password = "";
-                    // authenticatedUser.Token = GenerateToker(authenticatedUser);
-                    
-                    var claims = new List<Claim>()
+                    var authenticatedUser = _userRepository.Login(loginViewModel.Email, Common.ComputeSha256Hash(loginViewModel.Password));
+
+                    if(authenticatedUser != null)
                     {
-                        // Define o cookie
-                        new Claim(ClaimTypes.Sid, authenticatedUser.Id.ToString()),
-                        new Claim(ClaimTypes.Name, authenticatedUser.Name),
-                        new Claim(ClaimTypes.Email, authenticatedUser.Email),
-                        new Claim(ClaimTypes.Role, authenticatedUser.Role)
-                    };
+                        authenticatedUser.Password = "";
+                        // authenticatedUser.Token = GenerateToker(authenticatedUser);
+                        
+                        var claims = new List<Claim>()
+                        {
+                            // Define o cookie
+                            new Claim(ClaimTypes.Sid, authenticatedUser.Id.ToString()),
+                            new Claim(ClaimTypes.Name, authenticatedUser.Name),
+                            new Claim(ClaimTypes.Email, authenticatedUser.Email),
+                            new Claim(ClaimTypes.Role, authenticatedUser.Role)
+                        };
 
-                    var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                    var authProperties = new AuthenticationProperties{};
+                        var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                        var authProperties = new AuthenticationProperties{};
+                        
+                        // Cria o cookie                    
+                        HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
+
+                        return RedirectToAction("Index", "ToDo", authenticatedUser);                
+                    }
                     
-                    // Cria o cookie                    
-                    HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
+                    Notification.Set(TempData, new Message() {
+                        Text = "Credenciais inválidas!",
+                        Type = NotificationType.danger
+                    });
 
-                    return RedirectToAction("Index", "ToDo", authenticatedUser);                
+                    return RedirectToAction("Index", "Login");
                 }
-                
-                Notification.Set(TempData, new Message() {
-                    Text = "Credenciais inválidas!",
-                    Type = NotificationType.danger
-                });
-
-                return RedirectToAction("Index", "Login");
+                else 
+                {
+                    return View("Index", loginViewModel);
+                }
             }
             catch (Exception ex)
             {

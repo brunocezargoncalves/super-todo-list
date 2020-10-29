@@ -9,16 +9,16 @@
         @using (Html.BeginForm("Add", "ToDo", FormMethod.Post))
         {
             <div class="form-group">
-                <label>Tarefa</label>
-                @Html.TextBoxFor(d => d.Task, new { @class = "form-control" })
+                @Html.LabelFor(t => t.Task, new { @class = "control-label"})
+                @Html.TextBoxFor(t => t.Task, new { @class = "form-control" })
             </div>
             <div class="form-group">
-                <label>Tarefa</label>
-                @Html.TextBoxFor(d => d.Description, new { @class = "form-control" })
+                @Html.LabelFor(t => t.Description, new { @class = "control-label"})
+                @Html.TextBoxFor(t => t.Description, new { @class = "form-control" })
             </div>
             <div class="form-group">
-                <label>Previsão</label>
-                @Html.TextBoxFor(d => d.Forecast, new { @class = "form-control" })
+                @Html.LabelFor(t => t.Forecast, new { @class = "control-label"})
+                @Html.TextBoxFor(t => t.Forecast, new { @class = "form-control" })
             </div>
             <button type="submit" class="btn btn-primary">Salvar</button>
             <a href="@Url.Action("Index", "Task")" class="btn btn-default">Cancelar</a>

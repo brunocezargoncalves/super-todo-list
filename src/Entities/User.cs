@@ -15,14 +15,16 @@ namespace Entities
         [Column("Name")]        
         public string Name { get; set; }
 
-        [Required]
+        [Display(Name = "Email")]
+        [Required(ErrorMessage = "O e-mail deve ser inserido!")]        
         [Column("Email")]
         public string Email { get; set; }
 
         [Column("VerifiedEmail")]
         public bool VerifiedEmail { get; set; }
 
-        [Required]
+        [Display(Name = "Senha")]
+        [Required(ErrorMessage = "A senha deve ser inserida!")]        
         [Column("Password")]
         public string Password { get; set; }        
 
